@@ -1,23 +1,47 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import Fruits from "./components/Fruits";
+import AddFruits from "./components/AddFruits";
 
 function App() {
+  //state ----------------------------------------------------------------------------------------------------------------------------
+
+  let [fruits, setFruits] = useState([
+    { id: 1, nom: "Abricot" },
+    { id: 2, nom: "Banane" },
+    { id: 3, nom: "Cerise" },
+  ]);
+
+  // comportements ----------------------------------------------------------------------------------------------------------------------------
+
+
+  const fruitDelete = (id) => {
+    //Copie du state
+    const fruitsCopy = [...fruits];
+    // Manipulation du state
+    const fruitsCopyUpdated = fruitsCopy.filter((fruit) => fruit.id !== id);
+    // Modification du state avec le setter
+    setFruits(fruitsCopyUpdated);
+  };
+
+  const addHandle = (fruitAdded) => {
+    // Copie du State
+    const fruitsCopy = [...fruits];
+    //Manipulation du State
+    fruitsCopy.push(fruitAdded);
+    //Modification du state avec le setter
+    setFruits(fruitsCopy);
+
+  };
+  //render ----------------------------------------------------------------------------------------------------------------------------
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Liste de fruits</h1>
+      <ul>
+        {fruits.map((fruit) => (
+          <Fruits fruitsInfo={fruit} FruitDelete={fruitDelete} key={fruit.id}/>
+        ))}
+      </ul>
+      <AddFruits addHandle={addHandle} />
     </div>
   );
 }
